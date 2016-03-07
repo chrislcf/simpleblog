@@ -11,3 +11,6 @@ A really simple blog based on file IO, marked, materializecss, express.js
 4. Default editing password is `secret`. To change that, generate the hash at [here](/scrypt), then replace the corresponding field in `config.json`.
 
 Have **fun** blogging!
+
+# Demo
+https://s-blog.wtako.net
