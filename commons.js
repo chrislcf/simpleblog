@@ -5,7 +5,56 @@ var scrypt = require('scrypt');
 var scryptParameters = scrypt.paramsSync(0.1);
 var adminKdf = new Buffer(config.scrypt_password, 'base64');
 
+var definedIP;
+var rateLimiters = {};
+
+var getIP = function (req) {
+  if (definedIP) {
+    return definedIP;
+  }
+  return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+};
+
+var RateLimiter = function (maxRequestCount, perSeconds) {
+  this.lastTimePortion = {};
+  this.ipRequestCounter = {};
+  var self = this;
+  this.middleware = function (req, res, next) {
+    var timePortion = Math.floor(Date.now() / (perSeconds * 1000));
+    if (self.lastTimePortion[maxRequestCount] !== timePortion) {
+      self.ipRequestCounter = {};
+      self.lastTimePortion[maxRequestCount] = timePortion;
+    }
+    var ip = getIP(req);
+    if (!(ip in self.ipRequestCounter)) {
+      self.ipRequestCounter[ip] = 1;
+    }
+    if (self.ipRequestCounter[ip] > maxRequestCount) {
+      res.status(429).send('Too many requests. Please request again ' +
+        Math.ceil(perSeconds / 60) + ' minute(s) later.');
+      return;
+    }
+    self.ipRequestCounter[ip]++;
+    next();
+  };
+  this.reset = function (req) {
+    if (!req) {
+      self.ipRequestCounter = {};
+    } else {
+      self.ipRequestCounter[getIP(req)] = 0;
+    }
+  };
+};
+
 module.exports = {
+  rateLimit: function (area, maxRequestCount, perSeconds) {
+    var limiter = rateLimiters[area];
+    if (!limiter) {
+      limiter = new RateLimiter(maxRequestCount, perSeconds);
+      rateLimiters[area] = limiter;
+    }
+    return limiter.middleware;
+  },
   findFilenameByID: function (id, callback) {
     fs.readdir(config.posts_path, function (err, files) {
       if (err) throw err;

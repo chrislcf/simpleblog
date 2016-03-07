@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', commons.rateLimit('dos', 60, 60), function (req, res, next) {
   commons.generateScrypt(req.body.password, function (err, hash) {
     if (err) throw err;
     res.send({

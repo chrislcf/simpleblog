@@ -60,14 +60,14 @@ router.get('/:id', function (req, res, next) {
   });
 });
 
-router.post('/', commons.checkInput, backupToCookies, commons.authenticate, function (req, res, next) {
+router.post('/', commons.checkInput, commons.rateLimit('brute', 20, 60), backupToCookies, commons.authenticate, function (req, res, next) {
   commons.nextID(function (id) {
     req.id = id;
     next();
   });
 }, writePost);
 
-router.post('/:id', commons.checkInput, backupToCookies, commons.authenticate, function (req, res, next) {
+router.post('/:id', commons.checkInput, commons.rateLimit('brute', 20, 60), backupToCookies, commons.authenticate, function (req, res, next) {
   req.id = req.params.id;
   commons.findFilenameByID(req.params.id, function (err, file) {
     if (err) throw err;
