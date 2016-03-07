@@ -38,3 +38,7 @@ footer {
   margin-top: 2em;
   text-align: center;
 }
+.powered-by {
+  text-align: right;
+  margin-bottom: 4em;
+}
