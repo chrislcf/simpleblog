@@ -23,11 +23,15 @@
     "type": "git",
     "url": "git+https://github.com/Saren-Arterius/simple-blog.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Saren",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/Saren-Arterius/simple-blog/issues"
   },
   "homepage": "https://github.com/Saren-Arterius/simple-blog#readme",
-  "description": ""
+  "description": "A really simple blog based on file IO, marked, materializecss, express.js",
+  "keywords": [
+    "blog",
+    "wordpress"
+  ]
 }
