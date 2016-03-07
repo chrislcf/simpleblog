@@ -77,7 +77,7 @@ module.exports = {
         id: parseInt(id, 10),
         title: title,
         slug: config.include_slug ? title.toLowerCase().replace(/ /g, '-') : '',
-        cdate: stat.ctime.toISOString().slice(0, 10)
+        cdate: stat.mtime.toISOString().slice(0, 10)
       });
     });
   },
