@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  a(href='/')
+    h1.header= title
+  .row
+    .col.s12
+      .row
+        .input-field.col.s12
+          i.material-icons.prefix vpn_key
+          input#password.validate(type='password' name='password' required)
+          label(for='password') Password
+  footer
+    button#generate.waves-effect.waves-light.btn-large
+      i.material-icons.right send
+      | generate

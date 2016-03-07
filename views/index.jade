@@ -1,5 +1,23 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  a(href='/scrypt')
+    h1.header= title
+  if posts
+    table.highlight
+      thead
+        tr
+          th Published on
+          th Title
+      tbody
+        each post in posts
+          tr
+            td(style='width: 10em')= post.cdate
+            td
+              a(href='/view/#{post.id}/#{post.slug}')= post.title
+  else
+    p.flow-text(style='text-align: center;') No posts here so far :)
+  footer
+    a.waves-effect.waves-light.btn-large(href='/edit')
+      i.material-icons.right create
+      | create

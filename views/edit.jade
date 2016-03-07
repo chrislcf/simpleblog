@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  a(href='/')
+    h1.header= title
+  form(method='POST' action='/edit/#{id}')
+    .row
+      .col.m6.s12
+        .row
+          .input-field.col.s12
+            i.material-icons.prefix subject
+            input#title.validate(value='#{postTitle}' type='text' name='title' required)
+            label(for='title') Title
+        .row
+          .input-field.col.s12
+            i.material-icons.prefix edit
+            textarea#content.materialize-textarea.validate(type='text' name='content' required) #{content}
+            label(for='content') Content
+        .row
+          .input-field.col.s12
+            i.material-icons.prefix vpn_key
+            input#password.validate(type='password' name='password' required)
+            label(for='password') Password
+      .col.m6.s12
+        h6 Preview
+        article#preview.flow-text
+    footer
+      button.waves-effect.waves-light.btn-large(type='submit')
+        i.material-icons.right publish
+        | publish
