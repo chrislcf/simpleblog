@@ -1,17 +1,17 @@
 var config = require('./config');
 var fs = require('fs');
-
+var LRU = require('lru-cache');
 var scrypt = require('scrypt');
 var scryptParameters = scrypt.paramsSync(0.1);
 var adminKdf = new Buffer(config.scrypt_password, 'base64');
 
-var definedIP;
 var rateLimiters = {};
+var options = {
+  maxAge: config.cache_minutes * 60 * 1000
+};
+var cache = LRU(options);
 
 var getIP = function (req) {
-  if (definedIP) {
-    return definedIP;
-  }
   return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 };
 
@@ -47,6 +47,7 @@ var RateLimiter = function (maxRequestCount, perSeconds) {
 };
 
 module.exports = {
+  cache: cache,
   rateLimit: function (area, maxRequestCount, perSeconds) {
     var limiter = rateLimiters[area];
     if (!limiter) {

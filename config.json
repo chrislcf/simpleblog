@@ -3,5 +3,6 @@
   "old_posts_path": "old-posts",
   "blog_name": "My blog",
   "include_slug": true,
+  "cache_minutes": 5,
   "scrypt_password": "c2NyeXB0AA8AAAAIAAAAAcEpWEQtpOF0g3igZK/WMBYwUyzgvn6k08V3Y+6mdB/hjVtXfStXc3c/R61/L35fQEJwLu/R9+sIet6vqZXdZYwQ4vg65qDunuCRbNExbQuj"
 }

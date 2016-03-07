@@ -8,9 +8,13 @@ var fs = require('fs');
 var marked = require('marked');
 
 var renderPost = function (req, res, next) {
+  var cached = commons.cache.get('view-' + req.params.id);
+  if (cached) {
+    return res.render('view', cached);
+  }
   commons.findFilenameByID(req.params.id, function (err, file) {
-    console.log(file);
     if (err) throw err;
+    if (!file) return res.redirect('/');
     Async.parallel([
       function (cb) {
         commons.infoFromFilename(file, function (err, info) {
@@ -24,11 +28,13 @@ var renderPost = function (req, res, next) {
       }
     ], function (err, results) {
       if (err) throw err;
-      res.render('view', {
+      var entry = {
         title: results[0].title,
         post: results[0],
         html: marked(results[1])
-      });
+      };
+      commons.cache.set('view-' + req.params.id, entry);
+      res.render('view', entry);
     });
   });
 };

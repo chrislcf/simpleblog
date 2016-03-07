@@ -12,6 +12,9 @@ var writePost = function (req, res, next) {
     req.body.content, 'utf8',
     function () {
       res.redirect('/view/' + req.id);
+      commons.cache.del('view-' + req.id);
+      commons.cache.del('edit-' + req.id);
+      commons.cache.del('index');
     });
 };
 
@@ -24,6 +27,13 @@ var backupToCookies = function (req, res, next) {
   next();
 };
 
+var personalize = function (req, entry) {
+  entry.title = commons.errorMessageOrTitle(req, 'Edit post');
+  entry.postTitle = ('err' in req.query ? req.cookies.title : entry.postTitle) || entry.postTitle;
+  entry.content = ('err' in req.query ? req.cookies.content : entry.content) || entry.content;
+  return entry;
+};
+
 router.get('/', function (req, res, next) {
   res.render('edit', {
     title: commons.errorMessageOrTitle(req, 'New post'),
@@ -34,6 +44,10 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:id', function (req, res, next) {
+  var cached = commons.cache.get('edit-' + req.params.id);
+  if (cached) {
+    return res.render('edit', personalize(req, cached));
+  }
   commons.findFilenameByID(req.params.id, function (err, file) {
     if (err) throw err;
     if (!file) return res.redirect('/');
@@ -50,12 +64,13 @@ router.get('/:id', function (req, res, next) {
       }
     ], function (err, results) {
       if (err) throw err;
-      res.render('edit', {
-        title: commons.errorMessageOrTitle(req, 'Edit post'),
+      var entry = {
         id: results[0].id,
-        postTitle: ('err' in req.query ? req.cookies.title : results[0].title) || results[0].title,
-        content: ('err' in req.query ? req.cookies.content : results[1]) || results[1]
-      });
+        postTitle: results[0].title,
+        content: results[1]
+      };
+      commons.cache.set('edit-' + req.params.id, entry);
+      res.render('edit', personalize(req, entry));
     });
   });
 });
