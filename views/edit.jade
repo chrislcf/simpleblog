@@ -5,7 +5,7 @@ block content
     h1.header= title
   form(method='POST' action='/edit/#{id}')
     .row
-      .col.l6.m12
+      .col.l6.m12.s12
         .row
           .input-field.col.s12
             i.material-icons.prefix subject
@@ -21,7 +21,7 @@ block content
             i.material-icons.prefix vpn_key
             input#password.validate(type='password' name='password' required)
             label(for='password') Password
-      .col.m6.s12
+      .col.l6.m12.s12
         h6 Preview
         article#preview.flow-text
     footer
