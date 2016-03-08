@@ -45,3 +45,6 @@ footer {
 img {
   max-width: 100%;
 }
+code {
+  font-size: 0.75em;
+}
