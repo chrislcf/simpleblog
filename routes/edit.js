@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+var BACKUP_CHAR_LIMIT = 4000;
 var config = require('../config');
 var commons = require('../commons');
 var fs = require('fs');
@@ -23,7 +24,9 @@ var backupToCookies = function (req, res, next) {
     path: '/edit/' + (req.params.id || '')
   };
   res.cookie('title', req.body.title, settings);
-  res.cookie('content', req.body.content, settings);
+  if (req.body.content.length < BACKUP_CHAR_LIMIT) {
+    res.cookie('content', req.body.content, settings);
+  }
   next();
 };
 

@@ -42,3 +42,6 @@ footer {
   text-align: right;
   margin-bottom: 4em;
 }
+img {
+  max-width: 100%;
+}
