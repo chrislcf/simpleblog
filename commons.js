@@ -72,7 +72,7 @@ module.exports = {
       if (err) return callback(err);
       var spliced = file.split('.');
       var id = spliced[0];
-      var title = new Buffer(spliced[1], 'base64').toString('utf8');
+      var title = new Buffer(spliced[1].replace(/_/g, '/'), 'base64').toString('utf8');
       callback(null, {
         id: parseInt(id, 10),
         title: title,

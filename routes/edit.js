@@ -7,15 +7,15 @@ var fs = require('fs');
 var Async = require('async');
 
 var writePost = function (req, res, next) {
-  fs.writeFile(config.posts_path + '/' + req.id + '.' +
-    new Buffer(req.body.title).toString('base64') + '.md',
-    req.body.content, 'utf8',
-    function () {
-      res.redirect('/view/' + req.id);
-      commons.cache.del('view-' + req.id);
-      commons.cache.del('edit-' + req.id);
-      commons.cache.del('index');
-    });
+  var file = config.posts_path + '/' + req.id + '.' +
+    new Buffer(req.body.title).toString('base64').replace(/\//g, '_') + '.md';
+  fs.writeFile(file, req.body.content, 'utf8', function (err) {
+    if (err) return next(err);
+    res.redirect('/view/' + req.id);
+    commons.cache.del('view-' + req.id);
+    commons.cache.del('edit-' + req.id);
+    commons.cache.del('index');
+  });
 };
 
 var backupToCookies = function (req, res, next) {
@@ -63,7 +63,7 @@ router.get('/:id', function (req, res, next) {
         });
       }
     ], function (err, results) {
-      if (err) throw err;
+      if (err) return next(err);
       var entry = {
         id: results[0].id,
         postTitle: results[0].title,
@@ -85,7 +85,7 @@ router.post('/', commons.checkInput, commons.rateLimit('brute', 20, 60), backupT
 router.post('/:id', commons.checkInput, commons.rateLimit('brute', 20, 60), backupToCookies, commons.authenticate, function (req, res, next) {
   req.id = req.params.id;
   commons.findFilenameByID(req.params.id, function (err, file) {
-    if (err) throw err;
+    if (err) return next(err);
     if (!file) return res.redirect('/');
     fs.rename(config.posts_path + '/' + file, config.old_posts_path + '/' + file + '.' + Date.now(), next);
   });
