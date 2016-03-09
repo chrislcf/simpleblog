@@ -68,17 +68,22 @@ module.exports = {
     });
   },
   infoFromFilename: function (file, callback) {
-    fs.stat(config.posts_path + '/' + file, function (err, stat) {
-      if (err) return callback(err);
-      var spliced = file.split('.');
-      var id = spliced[0];
-      var title = new Buffer(spliced[1].replace(/_/g, '/'), 'base64').toString('utf8');
+    var spliced = file.split('.');
+    var id = spliced[0];
+    var title = new Buffer(spliced[1].replace(/_/g, '/'), 'base64').toString('utf8');
+    var fncTime = parseInt(spliced[2], 10);
+    var next = function (time) {
       callback(null, {
         id: parseInt(id, 10),
         title: title,
         slug: config.include_slug ? title.toLowerCase().replace(/ /g, '-') : '',
-        cdate: stat.mtime.toISOString().slice(0, 10)
+        fncTime: time,
+        displayDate: new Date(time).toISOString().slice(0, 10)
       });
+    };
+    fncTime ? next(fncTime) : fs.stat(config.posts_path + '/' + file, function (err, stat) {
+      if (err) return callback(err);
+      next(stat.mtime.getTime());
     });
   },
   authenticate: function (req, res, next) {

@@ -12,7 +12,7 @@ block content
       tbody
         each post in posts
           tr
-            td(style='width: 10em')= post.cdate
+            td(style='width: 8em')= post.displayDate
             td
               a(href='/view/#{post.id}/#{post.slug}')= post.title
   else

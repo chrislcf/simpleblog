@@ -3,7 +3,7 @@ extends layout
 block content
   a(href='/')
     h1.header= title
-  h5.date= post.cdate
+  h5.date= post.displayDate
   article.flow-text !{html}
   footer
     a.waves-effect.waves-light.btn-large(href='/edit/#{post.id}')

@@ -8,8 +8,9 @@ var fs = require('fs');
 var Async = require('async');
 
 var writePost = function (req, res, next) {
-  var file = config.posts_path + '/' + req.id + '.' +
-    new Buffer(req.body.title).toString('base64').replace(/\//g, '_') + '.md';
+  var file = config.posts_path + '/' + req.id +
+  '.' + new Buffer(req.body.title).toString('base64').replace(/\//g, '_') +
+  '.' + (req.fncTime || Date.now()) + '.md';
   fs.writeFile(file, req.body.content, 'utf8', function (err) {
     if (err) return next(err);
     res.redirect('/view/' + req.id);
@@ -90,7 +91,11 @@ router.post('/:id', commons.checkInput, commons.rateLimit('brute', 20, 60), back
   commons.findFilenameByID(req.params.id, function (err, file) {
     if (err) return next(err);
     if (!file) return res.redirect('/');
-    fs.rename(config.posts_path + '/' + file, config.old_posts_path + '/' + file + '.' + Date.now(), next);
+    commons.infoFromFilename(file, function (err, info) {
+      if (err) return next(err);
+      req.fncTime = info.fncTime;
+      fs.rename(config.posts_path + '/' + file, config.old_posts_path + '/' + file + '.' + Date.now(), next);
+    });
   });
 }, writePost);
 
