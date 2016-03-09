@@ -24,8 +24,9 @@ router.get('/', function (req, res, next) {
     Async.map(files, commons.infoFromFilename, function (err, posts) {
       if (err) throw err;
       posts.sort(function (a, b) {
-        return a.id + b.id;
+        return a.id - b.id;
       });
+      posts.reverse();
       var entry = {
         title: config.blog_name,
         posts: posts
