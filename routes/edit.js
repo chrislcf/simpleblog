@@ -33,6 +33,7 @@ var backupToCookies = function (req, res, next) {
 
 var personalize = function (req, entry) {
   var pEntry = {};
+  pEntry.id = entry.id;
   pEntry.title = commons.errorMessageOrTitle(req, 'Edit post');
   pEntry.postTitle = ('err' in req.query ? req.cookies.title : entry.postTitle) || entry.postTitle;
   pEntry.content = ('err' in req.query ? req.cookies.content : entry.content) || entry.content;
