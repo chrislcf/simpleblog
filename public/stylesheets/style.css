@@ -48,3 +48,6 @@ img {
 code {
   font-size: 0.75em;
 }
+thead {
+  border-bottom: 1px solid #e0e0e0;
+}
