@@ -9,8 +9,8 @@ var Async = require('async');
 
 var writePost = function (req, res, next) {
   var file = config.posts_path + '/' + req.id +
-  '.' + new Buffer(req.body.title).toString('base64').replace(/\//g, '_') +
-  '.' + (req.fncTime || Date.now()) + '.md';
+    '.' + new Buffer(req.body.title).toString('base64').replace(/\//g, '_') +
+    '.' + (req.fncTime || Date.now()) + '.md';
   fs.writeFile(file, req.body.content, 'utf8', function (err) {
     if (err) return next(err);
     res.redirect('/view/' + req.id);
@@ -32,11 +32,11 @@ var backupToCookies = function (req, res, next) {
 };
 
 var personalize = function (req, entry) {
-  console.log(entry);
-  entry.title = commons.errorMessageOrTitle(req, 'Edit post');
-  entry.postTitle = ('err' in req.query ? req.cookies.title : entry.postTitle) || entry.postTitle;
-  entry.content = ('err' in req.query ? req.cookies.content : entry.content) || entry.content;
-  return entry;
+  var pEntry = {};
+  pEntry.title = commons.errorMessageOrTitle(req, 'Edit post');
+  pEntry.postTitle = ('err' in req.query ? req.cookies.title : entry.postTitle) || entry.postTitle;
+  pEntry.content = ('err' in req.query ? req.cookies.content : entry.content) || entry.content;
+  return pEntry;
 };
 
 router.get('/', function (req, res, next) {

@@ -1,8 +1,8 @@
 {
   "posts_path": "posts",
   "old_posts_path": "old-posts",
-  "blog_name": "My blog",
+  "blog_name": "Saren的天空",
   "include_slug": true,
   "cache_minutes": 5,
-  "scrypt_password": "c2NyeXB0AA8AAAAIAAAAAcEpWEQtpOF0g3igZK/WMBYwUyzgvn6k08V3Y+6mdB/hjVtXfStXc3c/R61/L35fQEJwLu/R9+sIet6vqZXdZYwQ4vg65qDunuCRbNExbQuj"
+  "scrypt_password": "c2NyeXB0AA4AAAAIAAAAAfm6g4Lih7VEFF3iVx3uh2fbZYElz9sJ6hguREmkQHjgAH2CHjXxhA/1919G0hBcS6pByxGvgrPW+urn33elct6oSHp0hvvNumtj1EUwZzfq"
 }
