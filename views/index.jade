@@ -15,6 +15,7 @@ block content
             td(style='width: 8em')= post.displayDate
             td
               a(href='/view/#{post.id}/#{post.slug}')= post.title
+    .divider
   else
     p.flow-text(style='text-align: center;') No post here so far :)
   footer
