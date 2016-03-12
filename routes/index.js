@@ -6,11 +6,21 @@ var commons = require('../commons');
 var Async = require('async');
 var fs = require('fs');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
+var fitPage = function (entry, page) {
+  var pageEntry = {};
+  var start = (page - 1) * config.posts_per_page;
+  pageEntry.title = entry.title;
+  pageEntry.currentPage = page;
+  pageEntry.totalPage = Math.ceil(entry.posts.length / config.posts_per_page);
+  pageEntry.posts = entry.posts.slice(start, start + config.posts_per_page);
+  return pageEntry;
+};
+
+var renderIndex = function (req, res, next) {
+  var page = req.params.page || 1;
   var cached = commons.cache.get('index');
   if (cached) {
-    return res.render('index', cached);
+    return res.render('index', fitPage(cached, page));
   }
   fs.readdir(config.posts_path, function (err, files) {
     if (err) throw err;
@@ -32,9 +42,12 @@ router.get('/', function (req, res, next) {
         posts: posts
       };
       commons.cache.set('index', entry);
-      res.render('index', entry);
+      res.render('index', fitPage(entry, page));
     });
   });
-});
+};
+
+router.get('/page/:page', renderIndex);
+router.get('/', renderIndex);
 
 module.exports = router;

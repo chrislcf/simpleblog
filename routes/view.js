@@ -31,7 +31,8 @@ var renderPost = function (req, res, next) {
       var entry = {
         title: results[0].title,
         post: results[0],
-        html: marked(results[1])
+        html: marked(results[1]),
+        disqusSite: config.disqus_site
       };
       commons.cache.set('view-' + req.params.id, entry);
       res.render('view', entry);
