@@ -1,3 +1,9 @@
+h1, h2, h3, h4, h5, h6, .header, body, footer, .powered-by, thead{
+  font-family: Source Han Sans TC, Microsoft JhengHei, Heiti TC, Helvetica;
+}
+code, #edit{
+  font-family: Consolas, Inconsolata, Courier, monospace, Source Han Sans TC, Microsoft JhengHei, Heiti TC, Helvetica;
+}
 h1 {
   font-weight: 300;
   word-wrap: break-word;
