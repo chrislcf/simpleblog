@@ -10,9 +10,11 @@ var fitPage = function (entry, page) {
   var pageEntry = {};
   var start = (page - 1) * config.posts_per_page;
   pageEntry.title = entry.title;
-  pageEntry.currentPage = page;
-  pageEntry.totalPage = Math.ceil(entry.posts.length / config.posts_per_page);
-  pageEntry.posts = entry.posts.slice(start, start + config.posts_per_page);
+  if (entry.posts) {
+    pageEntry.currentPage = page;
+    pageEntry.totalPage = Math.ceil(entry.posts.length / config.posts_per_page);
+    pageEntry.posts = entry.posts.slice(start, start + config.posts_per_page);
+  }
   return pageEntry;
 };
 

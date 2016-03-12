@@ -27,10 +27,6 @@ h6 {
   color: #26a69a;
   font-weight: 500;
 }
-.date {
-  text-align: center;
-  margin-bottom: 1em;
-}
 body {
   margin-top: 5em;
   background-color: #fcfcfc;
@@ -55,4 +51,8 @@ code {
 }
 thead {
   border-bottom: 1px solid #e0e0e0;
+}
+#edit {
+  text-align: center;
+  margin-bottom: 2em;
 }

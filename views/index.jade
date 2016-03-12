@@ -16,34 +16,38 @@ block content
             td
               a(href='/view/#{post.id}/#{post.slug}')= post.title
     .divider
+    footer
+      ul.pagination
+        if currentPage == 1
+          li.disabled
+            a(href="#!")
+              i.material-icons chevron_left
+        else
+          li.waves-effect
+            a(href="/page/#{+ currentPage - 1}")
+              i.material-icons chevron_left
+        - for (var i = 1; i <= totalPage; i++) {
+            if i == currentPage
+              li.active
+                a(href="/page/#{i}") #{i}
+            else
+              li.waves-effect
+                a(href="/page/#{i}") #{i}
+        - }
+        if currentPage == totalPage
+          li.disabled
+            a(href="#!")
+              i.material-icons chevron_right
+        else
+          li.waves-effect
+            a(href="/page/#{+ currentPage + 1}")
+              i.material-icons chevron_right
+      a.waves-effect.waves-light.btn-large(href='/edit')
+        i.material-icons.right create
+        | write
   else
     p.flow-text(style='text-align: center;') No post here so far :)
-  footer
-    ul.pagination
-      if currentPage == 1
-        li.disabled
-          a(href="#!")
-            i.material-icons chevron_left
-      else
-        li.waves-effect
-          a(href="/page/#{+ currentPage - 1}")
-            i.material-icons chevron_left
-      - for (var i = 1; i <= totalPage; i++) {
-          if i == currentPage
-            li.active
-              a(href="/page/#{i}") #{i}
-          else
-            li.waves-effect
-              a(href="/page/#{i}") #{i}
-      - }
-      if currentPage == totalPage
-        li.disabled
-          a(href="#!")
-            i.material-icons chevron_right
-      else
-        li.waves-effect
-          a(href="/page/#{+ currentPage + 1}")
-            i.material-icons chevron_right
-    a.waves-effect.waves-light.btn-large(href='/edit')
-      i.material-icons.right create
-      | write
+    footer
+      a.waves-effect.waves-light.btn-large(href='/edit')
+        i.material-icons.right create
+        | write
