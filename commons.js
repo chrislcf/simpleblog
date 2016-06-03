@@ -76,7 +76,7 @@ module.exports = {
       callback(null, {
         id: parseInt(id, 10),
         title: title,
-        slug: config.include_slug ? title.toLowerCase().replace(/ /g, '-') : '',
+        slug: config.include_slug ? title.toLowerCase().replace(/ /g, '-').replace(/\//g, '-') : '',
         fncTime: time,
         displayDate: new Date(time).toISOString().slice(0, 10)
       });
