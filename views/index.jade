@@ -9,12 +9,14 @@ block content
         tr
           th Published on
           th Title
+          th Updated on
       tbody
         each post in posts
           tr
             td(style='width: 8em')= post.displayDate
             td
               a(href='/view/#{post.id}/#{post.slug}')= post.title
+            td(style='width: 6em')= post.displayLMDate
     .divider
     footer
       ul.pagination

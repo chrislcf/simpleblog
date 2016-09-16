@@ -20,9 +20,9 @@ footer {
   text-align: center;
 }
 
-.powered-by {
-  text-align: right;
+.info-text {
   margin-bottom: 4em;
+  margin-top: -0.05em;
   opacity: 0.5;
   font-weight: 400;
 }

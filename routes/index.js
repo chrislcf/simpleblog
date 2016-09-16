@@ -24,6 +24,7 @@ var renderIndex = function (req, res, next) {
   if (cached) {
     return res.render('index', fitPage(cached, page));
   }
+
   fs.readdir(config.posts_path, function (err, files) {
     if (err) throw err;
     if (files.length === 0) {

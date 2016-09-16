@@ -13,7 +13,10 @@ html
       .card-panel
         .container
           block content
-      h6.powered-by Powered by&nbsp;
+      if post && post.displayLMTimeFull
+        h6.info-text(style='float: left') Last modified:&nbsp;
+          span #{post.displayLMTimeFull}
+      h6.info-text(style='float: right') Powered by&nbsp;
         a(href='https://github.com/Saren-Arterius/simple-blog') Simple Blog
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js')
