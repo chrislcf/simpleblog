@@ -42,6 +42,8 @@ var renderIndex = function (req, res, next) {
       posts.reverse();
       var entry = {
         title: config.blog_name,
+        avatarURL: config.avatar_img_url,
+        homepageURL: config.homepage_url,
         posts: posts
       };
       commons.cache.set('index', entry);
