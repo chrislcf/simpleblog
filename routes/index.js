@@ -10,6 +10,8 @@ var fitPage = function (entry, page) {
   var pageEntry = {};
   var start = (page - 1) * config.posts_per_page;
   pageEntry.title = entry.title;
+  pageEntry.avatarURL = entry.avatarURL;
+  pageEntry.homepageURL = entry.homepageURL;
   if (entry.posts) {
     pageEntry.currentPage = page;
     pageEntry.totalPage = Math.ceil(entry.posts.length / config.posts_per_page);
@@ -42,6 +44,8 @@ var renderIndex = function (req, res, next) {
       posts.reverse();
       var entry = {
         title: config.blog_name,
+        avatarURL: config.avatar_img_url,
+        homepageURL: config.homepage_url,
         posts: posts
       };
       commons.cache.set('index', entry);

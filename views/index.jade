@@ -1,22 +1,25 @@
 extends layout
 
 block content
+  .center-align(style='margin-top: 2em;')
+    a(href='#{homepageURL}')
+      img.circle.z-depth-3.grow(src='#{avatarURL}' style='max-width: 10em;')
   a(href='/scrypt')
-    h1.header= title
+    h3.header(style='margin-top: 0.1em;')= title
   if posts
     table.highlight
       thead
         tr
           th Published on
           th Title
-          th Updated on
+          th.hide-on-small-only Updated on
       tbody
         each post in posts
           tr
-            td(style='width: 8em')= post.displayDate
+            td(style='width: 7em')= post.displayDate
             td
               a(href='/view/#{post.id}/#{post.slug}')= post.title
-            td(style='width: 6em')= post.displayLMDate
+            td.hide-on-small-only(style='width: 7em')= post.displayLMDate
     .divider
     footer
       ul.pagination
