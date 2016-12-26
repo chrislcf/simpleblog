@@ -20,3 +20,9 @@ block content
       })();
     noscript Please enable JavaScript to view the
       a(href='https://disqus.com/?ref_noscript' rel='nofollow') comments powered by Disqus.
+  if recs
+    h3 Recommendations
+    ul
+      each rec in recs
+        li
+          a.flow-text(href='/view/#{rec.id}/#{rec.slug}') #{rec.title}

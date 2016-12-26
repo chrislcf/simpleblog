@@ -14,9 +14,8 @@ var writePost = function (req, res, next) {
   fs.writeFile(file, req.body.content, 'utf8', function (err) {
     if (err) return next(err);
     res.redirect('/view/' + req.id);
-    commons.cache.del('view-' + req.id);
-    commons.cache.del('edit-' + req.id);
-    commons.cache.del('index');
+    commons.reset();
+    commons.recomputeRecsLater();
   });
 };
 
@@ -64,7 +63,7 @@ router.get('/:id', function (req, res, next) {
         });
       },
       function (cb) {
-        fs.readFile(config.posts_path + '/' + file, 'utf8', function (err, data) {
+        commons.readFileCached(config.posts_path + '/' + file, function (err, data) {
           cb(err, data);
         });
       }

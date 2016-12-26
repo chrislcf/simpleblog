@@ -26,3 +26,5 @@ coverage
 benchmarks/graphs
 
 config.json
+posts
+old-posts

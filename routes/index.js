@@ -50,6 +50,7 @@ var renderIndex = function (req, res, next) {
       };
       commons.cache.set('index', entry);
       res.render('index', fitPage(entry, page));
+      commons.triggerRecomputeRecs();
     });
   });
 };
