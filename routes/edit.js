@@ -14,7 +14,7 @@ var writePost = function (req, res, next) {
   fs.writeFile(file, req.body.content, 'utf8', function (err) {
     if (err) return next(err);
     res.redirect('/view/' + req.id);
-    commons.reset();
+    commons.cache.reset();
     commons.recomputeRecsLater();
   });
 };
