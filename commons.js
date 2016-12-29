@@ -41,7 +41,7 @@ var findFilenameByID = function (id, callback) {
   fs.readdir(config.posts_path, function (err, files) {
     if (err) throw err;
     for (var i = 0; i < files.length; i++) {
-      if (parseInt(files[i].split('.')[0]) === id) {
+      if (parseInt(files[i].split('.')[0]) === parseInt(id)) {
         cache.set(key, files[i]);
         return callback(null, files[i]);
       }
@@ -133,39 +133,33 @@ var computeRecsIfNeeded = function () {
         opencc.convert(marked(data, {
           renderer: renderer
         }), function (err, converted) {
-          cb(err, nodejieba.cut(converted, true).filter(function (char) {
+          var id = parseInt(file.split('.')[0]);
+          renderPost(id, function () {});
+          cb(err, [id, nodejieba.cut(converted, true).filter(function (char) {
             return char.replace(/[&/\\#,+()$@~%.'":*;?<>_[\]{}|\-:!=\\n\\t\\r\s，。？：。！]/g, '').length !== 0;
-          }));
+          })]);
         });
       });
-    }, function (err, contents) {
+    }, function (err, items) {
       if (err) return console.log(err);
-      var map = {};
-      for (var i = 0; i < files.length; i++) {
-        renderPost(i + 1, function () {});
-        map[i + 1] = contents[i];
-      }
-      var items = Object.keys(map).map(function (key) {
-        return [key, map[key]];
+      items.sort(function (first, second) {
+        return second[0] - first[0];
       });
-
-      for (i = 0; i < items.length; i++) {
-        (function (i) {
-          Async.map(items.filter(function (kv) {
-            return parseInt(kv[0]) !== i + 1;
-          }), function (kv, cb) {
-            jaccard.index(map[i + 1], kv[1], function (result) {
-              cb(null, [kv[0], result]);
-            });
-          }, function (err, results) {
-            if (err) return console.log(err);
-            results.sort(function (first, second) {
-              return second[1] - first[1];
-            });
-            recs[i + 1] = results.slice(0, config.recommendations_per_post);
+      items.forEach(function (item) {
+        Async.map(items.filter(function (cmp) {
+          return cmp[0] !== item[0];
+        }), function (cmp, cb) {
+          jaccard.index(item[1], cmp[1], function (result) {
+            cb(null, [cmp[0], result]);
           });
-        })(i);
-      }
+        }, function (err, results) {
+          if (err) return console.log(err);
+          results.sort(function (first, second) {
+            return second[1] - first[1];
+          });
+          recs[item[0]] = results.slice(0, config.recommendations_per_post);
+        });
+      });
       console.log('Recommendations computed');
     });
   });
@@ -195,6 +189,7 @@ var renderPost = function (id, cb) {
   }
   findFilenameByID(id, function (err, file) {
     if (err) throw err;
+    console.log(id, file);
     if (!file) return cb(null);
     Async.parallel([
       function (cb) {
