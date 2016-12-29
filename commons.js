@@ -139,6 +139,8 @@ var computeRecsIfNeeded = function () {
             return char.replace(/[&/\\#,+()$@~%.'":*;?<>_[\]{}|\-:!=\\n\\t\\r\s，。？：。！]/g, '').length !== 0;
           }).map(function (str) {
             return str.toLowerCase();
+          }).filter(function (value, index, self) {
+            return self.indexOf(value) === index;
           })]);
         });
       });
