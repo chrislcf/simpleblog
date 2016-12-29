@@ -134,7 +134,6 @@ var computeRecsIfNeeded = function () {
           renderer: renderer
         }), function (err, converted) {
           var id = parseInt(file.split('.')[0]);
-          renderPost(id, function () {});
           cb(err, [id, nodejieba.cut(converted, true).filter(function (char) {
             return char.replace(/[&/\\#,+()$@~%.'":*;?<>_[\]{}|\-:!=\\n\\t\\r\s，。？：。！]/g, '').length !== 0;
           }).map(function (str) {
@@ -165,6 +164,10 @@ var computeRecsIfNeeded = function () {
         });
       });
       console.log('Recommendations computed');
+      items.forEach(function (item) {
+        cache.del('view-' + item[0]);
+        renderPost(item[0], function () {});
+      });
     });
   });
 };
