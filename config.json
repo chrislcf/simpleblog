@@ -7,8 +7,8 @@
   "scrypt_password": "c2NyeXB0AA4AAAAIAAAAAT2ciNfsNGisbdDHNJy7Jqx+1WRxi7y9ZM1x0OM10KkepYruEKd0ZrML/x8ZlKDeLFc++MuyGWMNJwGSJ2fhjqcHKatamb+QKPlEljUoPHTE",
   "posts_per_page": 10,
   "disqus_site": null,
-  "show_recommendations": true,
+  "show_recommendations": false,
   "recommendations_per_post": 4,
-  "avatar_img_url": "https://secure.gravatar.com/avatar/cef640b4420bd65002ea8919bd9693d6?s=500&r=g",
-  "homepage_url": "https://github.com/Saren-Arterius/simple-blog/"
+  "avatar_img_url": "https://maxcdn.icons8.com/Share/icon/color/Gaming//pokecoin1600.png",
+  "homepage_url": "http://abcd-w.xyz"
 }
