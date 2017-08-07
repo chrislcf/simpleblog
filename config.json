@@ -4,7 +4,7 @@
   "blog_name": "My blog",
   "include_slug": true,
   "cache_minutes": 5,
-  "scrypt_password": "c2NyeXB0AA4AAAAIAAAAAT2ciNfsNGisbdDHNJy7Jqx+1WRxi7y9ZM1x0OM10KkepYruEKd0ZrML/x8ZlKDeLFc++MuyGWMNJwGSJ2fhjqcHKatamb+QKPlEljUoPHTE",
+  "scrypt_password": "c2NyeXB0AA4AAAAIAAAAAdctlJAE2oMywxkNvvD1rtRBzOHN63lzbXXuu24VK1lWwGEtoyOJRh+PHV5G1TZGC1MbhX+3YP1hKdfGBgyF9WiqcoOOOohUhZnFu97lObB+",
   "posts_per_page": 10,
   "disqus_site": null,
   "show_recommendations": false,
